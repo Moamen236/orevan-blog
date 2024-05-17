@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,9 +13,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::group(['namespace' => 'API'] ,function () {
+Route::group(['namespace' => 'API'], function () {
 
-    Route::group(['namespace' => 'Auth'] ,function () {
+    Route::middleware(['auth:api'])->group(function () {
+        Route::get('posts', 'PostsController@index');
+        Route::post('posts', 'PostsController@store');
+        Route::get('posts/{id}', 'PostsController@show');
+        Route::put('posts/{id}', 'PostsController@update');
+        Route::delete('posts/{id}', 'PostsController@destroy');
+    });
+
+    Route::group(['namespace' => 'Auth'], function () {
         Route::post('login', 'AuthController@login');
         Route::post('register', 'AuthController@register');
         Route::post('logout', 'AuthController@logout');
