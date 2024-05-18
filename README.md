@@ -16,7 +16,7 @@ This project provides a secure and RESTful backend API for a simple blog managem
 ## Prerequisites
 
 * PHP (version 8.0 or later recommended) - https://www.php.net/downloads.php
-* Composer (dependency manager) - https://getcomposer.org/doc/faqs/how-to-install-composer-programmatically.md
+* Composer (dependency manager) - https://getcomposer.org/download/
 * Database (MySQL)
 
 ## Installation
@@ -98,3 +98,40 @@ This project provides a secure and RESTful backend API for a simple blog managem
 2. **Testing with Postman**
 
    If you have Postman installed, import the provided Postman collection for easy testing of API endpoints. Set the base URL to http://localhost:8000/api/ or your API's URL. Remember to include any necessary JWT tokens for authorized requests in the environment.
+
+
+## Setup With Docker
+
+- Make sure you have Docker installed and running.
+- Open your terminal in the project directory.
+- Run ```docker-compose ``` build to build the Docker images for your application, Nginx, and phpMyAdmin.
+-   Run ```docker-compose up -d ``` to start all the services in detached mode (background).
+
+    **Accessing your application**
+    - You can now access your Laravel application through the Nginx reverse proxy at http://localhost:51153.
+    - Access phpMyAdmin at http://localhost:8081 using the database credentials you provided in the environment variables.
+
+    **Configure Environment**
+    Edit the .env file:
+    Open the .env file in a text editor and update the following placeholders with your actual values:
+
+    ```bash
+    DB_CONNECTION=mysql
+    DB_HOST=mysql
+    DB_PORT=3306
+    DB_DATABASE=orevan-blog
+    DB_USERNAME=root
+    DB_PASSWORD=secret
+    ```
+	 **Access The Project**
+	 This step allows you to access the project directory within the container for running `composer` and `artisan` commands. However, it's generally recommended to use the ```docker-compose``` command for most tasks. If you still need to access the project directory:
+	 1. Run the following command to open a shell session inside the `php` container:
+		 ```bash
+		 docker-compose exec php \bin\sh
+		 ```
+	 This will place you within the ```/var/www/html``` directory of the container.
+	 2. Once finished, you can exit the container session by typing ```exit```.
+	
+	**Tips:**
+	-   Use `docker-compose ps` to view the status of your running containers.
+	-   Use `docker-compose stop` to stop the containers and `docker-compose start` to resume them.
